@@ -103,6 +103,9 @@ exports.signin = (req, res) => {
       }
       res.status(200).send({
         id: user._id,
+        avata: user.avata,
+        firstname: user.first,
+        lastname: user.last,
         username: user.username,
         email: user.email,
         roles: authorities,
