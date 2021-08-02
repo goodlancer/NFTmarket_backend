@@ -13,7 +13,6 @@ exports.changeImage = async (req, res) => {
   const newvalues = {$set: {avata: req.body.profileImg} };
   const options = { new: true };
   const result = await User.findOneAndUpdate(myquery, newvalues, options);
-  console.log(result);
   // let user = await User.findById(userId).exec();
   // user.avata = req.body.profileImg
   // user.save();
@@ -27,6 +26,25 @@ exports.changeImage = async (req, res) => {
     email: result.email,
   })
 };
+
+exports.updateProfileDetail = async (req, res) => {
+  const userid = req.userId;
+  console.log(req.body);
+  const userQuery = { _id: userid };
+  const newUpdate = { $set: { username: req.body.username, firstname: req.body.firstname, lastname: req.body.lastname, email: req.body.email } };
+  const options = { new: true };
+  const result = await User.findOneAndUpdate(userQuery, newUpdate, options);
+  console.log(result)
+
+  res.status(200).send({
+    id: result._id,
+    avata: result.avata,
+    firstname: result.first,
+    lastname: result.last,
+    username: result.username,
+    email: result.email,
+  })
+}
 
 exports.userBoard = async (req, res) => {
   const userId = req.userId;
