@@ -1,5 +1,6 @@
 const { authJwt } = require("../middlewares");
 const controller = require("../controllers/user.controller");
+const nftController = require("../controllers/nftlink.controller");
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -10,6 +11,7 @@ module.exports = function(app) {
     next();
   });
 
+  //user routes
   app.get("/api/test/all", controller.allAccess);
 
   app.post("/api/user/profileImage", [authJwt.verifyToken], controller.changeImage);
@@ -29,4 +31,9 @@ module.exports = function(app) {
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.adminBoard
   );
+
+  //nftdata routes
+  app.post("/api/nftdata/create", [authJwt.verifyToken], nftController.nftupload);
+  app.get("/api/nftdata/getall",  [authJwt.verifyToken], nftController.getAllNfts);
+  app.get("/api/nftdata/get/:nftid",  [authJwt.verifyToken], nftController.getbyId);
 };
