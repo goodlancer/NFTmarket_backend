@@ -36,4 +36,5 @@ module.exports = function(app) {
   app.post("/api/nftdata/create", [authJwt.verifyToken], nftController.nftupload);
   app.get("/api/nftdata/getall",  [authJwt.verifyToken], nftController.getAllNfts);
   app.get("/api/nftdata/get/:nftid",  [authJwt.verifyToken], nftController.getbyId);
+  app.get("/api/nftdata/getbyUser",  [authJwt.verifyToken], nftController.getbyUser);
 };

@@ -36,3 +36,11 @@ exports.getbyId = async (req, res) => {
     const nftdatabyId = await Nftlink.findById(nftid).exec();
     res.status(200).send({data: nftdatabyId});
 }
+
+exports.getbyUser = async (req, res) => {
+    const userId = req.userId;
+    const allnftdatabyUser = await Nftlink.find({
+        byuser: userId
+    }).exec()
+    res.status(200).send({data: allnftdatabyUser});
+}
