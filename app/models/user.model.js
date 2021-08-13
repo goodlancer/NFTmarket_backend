@@ -9,6 +9,7 @@ const User = mongoose.model(
     last: String,
     email: String,
     password: String,
+    createdAt: Date,
     roles: [
       {
         type: mongoose.Schema.Types.ObjectId,
