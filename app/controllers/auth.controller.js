@@ -97,6 +97,8 @@ exports.signin = (req, res) => {
         expiresIn: 86400 // 24 hours
       });
 
+      var tokendate = new Date();
+
       var authorities = [];
 
       for (let i = 0; i < user.roles.length; i++) {
@@ -110,7 +112,8 @@ exports.signin = (req, res) => {
         username: user.username,
         email: user.email,
         roles: authorities,
-        accessToken: token
+        accessToken: token,
+        genTokenDate: tokendate
       });
     });
 };
