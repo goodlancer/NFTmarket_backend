@@ -60,3 +60,8 @@ exports.adminBoard = (req, res) => {
 exports.moderatorBoard = (req, res) => {
   res.status(200).send("Moderator Content.");
 };
+
+exports.getAllusers = async (req, res) => {
+  const allUsers = await User.find().exec();
+  res.status(200).send({allUsers: allUsers});
+}
