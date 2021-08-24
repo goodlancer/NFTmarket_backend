@@ -10,6 +10,7 @@ const User = mongoose.model(
     email: String,
     password: String,
     createdAt: Date,
+    walletId: String,
     roles: [
       {
         type: mongoose.Schema.Types.ObjectId,
