@@ -44,3 +44,16 @@ exports.getbyUser = async (req, res) => {
     }).exec()
     res.status(200).send({data: allnftdatabyUser});
 }
+
+exports.uploadAsset = async (req, res) => {
+    // console.log(req.body.file);
+    // res.status(200).send({msg: 'The file was saved'});
+    const filers = require('fs');
+    filers.writeFile("/test1.png", req.body.file, 'binary', function (err) {
+        if (err) {
+            return console.log(err);
+        }
+        // console.log("The file was saved!");
+        res.status(200).send({msg: 'The file was saved'});
+    });
+}
