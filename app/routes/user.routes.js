@@ -16,6 +16,8 @@ module.exports = function(app) {
 
   app.post("/api/user/profileImage", [authJwt.verifyToken], controller.changeImage);
 
+  app.get("/api/user/all", controller.getAllusers);
+
   app.post("/api/user/profileUpdate", [authJwt.verifyToken], controller.updateProfileDetail);
 
   app.get("/api/test/user", [authJwt.verifyToken], controller.userBoard);
