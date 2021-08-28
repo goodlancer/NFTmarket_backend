@@ -14,7 +14,7 @@ exports.nftupload = async (req, res) => {
     const privatekey = (new Date()).valueOf().toString();
     const publickey = req.body.token;
     const cyptoResult = crypto.createHash('sha1').update(privatekey + publickey).digest('hex');
-    const content = new Buffer(req.body.file, 'base64');
+    const content = Buffer.from(req.body.file, 'base64');
     const data = filers.writeFileSync(`./nftDatas/${cyptoResult}.png`, content);
     const nftlink = new Nftlink({
         datalink: cyptoResult,
@@ -54,14 +54,12 @@ exports.getbyUser = async (req, res) => {
 exports.getbyNFT = async(req, res) => {
     const nft = req.params.nftid;
     const userId = req.userId;
-    console.log(nft);
-    const nftData = await Nftlink.find({
-        publickey: nft
-    })
+    console.log(nft.toLowerCase());
+    const nftData = await Nftlink.findOne({'publickey': nft.toLowerCase()});
     console.log(nftData);
-    if(userId == nftData[0].byuser[0]){
+    if(userId == nftData.byuser[0] && nftData != null){
         const fs = require('fs');
-        const contents = fs.readFileSync(`./nftDatas/${nftData[0].datalink}.png`, {encoding: 'base64'});
+        const contents = fs.readFileSync(`./nftDatas/${nftData.datalink}.png`, {encoding: 'base64'});
         res.status(200).send({conten: contents});
     }else{
         res.status(404).send({err: 'there is not the file'});

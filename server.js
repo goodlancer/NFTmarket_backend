@@ -13,12 +13,11 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
 // parse requests of content-type - application/json
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '2048mb'}));
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({limit: '2048mb', extended: true }));
 
 const db = require("./app/models");
 const Role = db.role;
