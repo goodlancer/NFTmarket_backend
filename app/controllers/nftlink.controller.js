@@ -10,18 +10,16 @@ exports.allAccess = (req, res) => {
 exports.nftupload = async (req, res) => {
     const userid = req.userId;
     const filers = require('fs');
-    const filelink = 'test1.png'
-    filers.writeFile("/"+filelink, req.body.file, 'binary', function (err) {
-        if (err) {
-            return console.log(err);
-        }
-        // console.log("The file was saved!");
-        res.status(200).send({msg: 'The file was saved'});
-    });
+    const crypto = require('crypto');
+    const privatekey = (new Date()).valueOf().toString();
+    const publickey = req.body.token;
+    const cyptoResult = crypto.createHash('sha1').update(privatekey + publickey).digest('hex');
+    const content = new Buffer(req.body.file, 'base64');
+    const data = filers.writeFileSync(`./nftDatas/${cyptoResult}.png`, content);
     const nftlink = new Nftlink({
-        datalink: req.body.datalink,
-        nftToken: req.body.token,
-        privatekey: req.body.privatekey,
+        datalink: cyptoResult,
+        publickey: req.body.token,
+        privatekey: privatekey,
         byuser: userid,
     })
 
@@ -54,22 +52,53 @@ exports.getbyUser = async (req, res) => {
 }
 
 exports.getbyNFT = async(req, res) => {
-    const nft = req.body.nftToken;
+    const nft = req.params.nftid;
+    const userId = req.userId;
+    console.log(nft);
     const nftData = await Nftlink.find({
-        nftToken: nft
-    }).exec()
-    res.status(200).send({ data: nftData });
+        publickey: nft
+    })
+    console.log(nftData);
+    if(userId == nftData[0].byuser[0]){
+        const fs = require('fs');
+        const contents = fs.readFileSync(`./nftDatas/${nftData[0].datalink}.png`, {encoding: 'base64'});
+        res.status(200).send({conten: contents});
+    }else{
+        res.status(404).send({err: 'there is not the file'});
+    }
+    
 }
-
+//Test Engine
 exports.uploadAsset = async (req, res) => {
     // console.log(req.body.file);
     // res.status(200).send({msg: 'The file was saved'});
     const filers = require('fs');
-    filers.writeFile("/test1.png", req.body.file, 'binary', function (err) {
-        if (err) {
-            return console.log(err);
-        }
-        // console.log("The file was saved!");
-        res.status(200).send({msg: 'The file was saved'});
-    });
+    // filers.writeFile("/test1.png", req.body.file, 'binary', function (err) {
+    //     if (err) {
+    //         return console.log(err);
+    //     }
+    //     // console.log("The file was saved!");
+    //     res.status(200).send({msg: 'The file was saved'});
+    // });
+    const content = "ipworjjlkjnonew";
+    const data = filers.writeFileSync('./nftDatas/test.txt', content);
+    console.log(data);
+    res.status(200).send({msg: 'The file was saved'});
+}
+
+exports.genhash = async (req, res) => {
+    const crypto = require('crypto');
+
+    // const text = 'I love cupcakes';
+    // const key = 'abcdeg';
+    // const current_date = (new Date()).valueOf().toString();
+    // console.log(current_date);
+    // var random_val = Math.random().toString();
+    // crypto.createHash('sha1').update(current_date + random_val).digest('hex');
+    // console.log(crypto.createHash('sha1').update(current_date + random_val).digest('hex'));
+    var generator = require('magic-square-generator').MagicSquare;
+    var square = new generator(5); // 3 => Dimension du carré 3*3
+    await square.generate();
+    // console.log(square);
+    res.status(200).send({msg: 'genwork'});
 }

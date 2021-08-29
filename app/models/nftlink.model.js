@@ -4,7 +4,7 @@ const Nftlink = mongoose.model(
     "Nftlink",
     new mongoose.Schema({
         datalink: String,
-        nftToken: String,
+        publickey: String,
         privatekey: String,
         byuser: [
             {
