@@ -18,7 +18,8 @@ app.use(bodyParser.json({limit: '2048mb'}));
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({limit: '2048mb', extended: true }));
-
+app.use(express.json({ limit: '2048mb' }));
+app.use(bodyParser.urlencoded({ limit: '2048mb' }));
 const db = require("./app/models");
 const Role = db.role;
 

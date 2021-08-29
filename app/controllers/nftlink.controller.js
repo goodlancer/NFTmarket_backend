@@ -55,7 +55,7 @@ exports.getbyNFT = async(req, res) => {
     const nft = req.params.nftid;
     const userId = req.userId;
     console.log(nft.toLowerCase());
-    const nftData = await Nftlink.findOne({'publickey': nft.toLowerCase()});
+    const nftData = await Nftlink.findOne({'publickey': nft});
     console.log(nftData);
     if(userId == nftData.byuser[0] && nftData != null){
         const fs = require('fs');
