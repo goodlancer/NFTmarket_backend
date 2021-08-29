@@ -9,6 +9,15 @@ exports.allAccess = (req, res) => {
 
 exports.nftupload = async (req, res) => {
     const userid = req.userId;
+    const filers = require('fs');
+    const filelink = 'test1.png'
+    filers.writeFile("/"+filelink, req.body.file, 'binary', function (err) {
+        if (err) {
+            return console.log(err);
+        }
+        // console.log("The file was saved!");
+        res.status(200).send({msg: 'The file was saved'});
+    });
     const nftlink = new Nftlink({
         datalink: req.body.datalink,
         nftToken: req.body.token,
