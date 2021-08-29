@@ -4,9 +4,8 @@ const Nftlink = mongoose.model(
     "Nftlink",
     new mongoose.Schema({
         datalink: String,
-        title: String,
-        detail: String,
-        price: Number,
+        nftToken: String,
+        privatekey: String,
         byuser: [
             {
               type: mongoose.Schema.Types.ObjectId,
@@ -16,4 +15,4 @@ const Nftlink = mongoose.model(
     })
 );
 
-module.exports =Nftlink;
+module.exports = Nftlink;

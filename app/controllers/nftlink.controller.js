@@ -11,9 +11,8 @@ exports.nftupload = async (req, res) => {
     const userid = req.userId;
     const nftlink = new Nftlink({
         datalink: req.body.datalink,
-        title: req.body.title,
-        detail: req.body.detail,
-        price: req.body.price,
+        nftToken: req.body.token,
+        privatekey: req.body.privatekey,
         byuser: userid,
     })
 
@@ -43,6 +42,14 @@ exports.getbyUser = async (req, res) => {
         byuser: userId
     }).exec()
     res.status(200).send({data: allnftdatabyUser});
+}
+
+exports.getbyNFT = async(req, res) => {
+    const nft = req.body.nftToken;
+    const nftData = await Nftlink.find({
+        nftToken: nft
+    }).exec()
+    res.status(200).send({ data: nftData });
 }
 
 exports.uploadAsset = async (req, res) => {
