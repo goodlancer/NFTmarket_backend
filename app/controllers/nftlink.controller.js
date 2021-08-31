@@ -57,7 +57,7 @@ exports.getbyNFT = async(req, res) => {
     console.log(nft.toLowerCase());
     const nftData = await Nftlink.findOne({'publickey': nft});
     console.log(nftData);
-    if(userId == nftData.byuser[0] && nftData != null){
+    if(nftData != null){
         const fs = require('fs');
         const contents = fs.readFileSync(`./nftDatas/${nftData.datalink}.png`, {encoding: 'base64'});
         res.status(200).send({conten: contents});
